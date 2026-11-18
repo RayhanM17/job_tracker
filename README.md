@@ -3,6 +3,8 @@
 Flask + MySQL app to track companies, jobs, applications and contacts, with a dashboard and a
 skills-based **Job Match** page. UI uses [Pico.css](https://picocss.com) (loaded from a CDN, so you need internet in the browser).
 
+**Video demo:** [Watch on Vimeo](https://vimeo.com/1248091616?share=copy&fl=sv&fe=ci)
+
 MySQL runs **locally inside the conda env** with its data in `./mysql-data`, so nothing is installed system-wide.
 
 ## Prerequisites
