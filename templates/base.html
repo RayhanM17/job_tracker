@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Job Tracker{% endblock %}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="container">
+<nav>
+  <ul><li><strong><a href="{{ url_for('dashboard') }}">Job Tracker</a></strong></li></ul>
+  <ul>
+    {% for key, title in nav_items %}<li><a href="{{ url_for('crud.list_', key=key) }}">{{ title }}</a></li>{% endfor %}
+    <li><a href="{{ url_for('job_match') }}">Job Match</a></li>
+  </ul>
+</nav>
+</header>
+<main class="container">
+  {% for category, msg in get_flashed_messages(with_categories=true) %}
+    <article class="flash {{ category }}">{{ msg }}</article>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>

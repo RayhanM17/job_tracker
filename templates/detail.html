@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="head"><h1>{{ r.singular }} details</h1>
+  <a role="button" href="{{ url_for('crud.edit', key=key, row_id=row[r.pk]) }}">Edit</a></div>
+<table>
+  {% for f in r.fields %}<tr><th>{{ f.label }}</th><td>{{ row[f.name]|pretty }}</td></tr>{% endfor %}
+</table>
+<p><a href="{{ url_for('crud.list_', key=key) }}">&larr; Back to {{ r.title }}</a></p>
+{% endblock %}

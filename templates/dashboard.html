@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Dashboard</h1>
+<div class="cards">
+  {% for key, title in nav_items %}
+    <article class="card"><a href="{{ url_for('crud.list_', key=key) }}"><span class="num">{{ counts[key] }}</span>{{ title }}</a></article>
+  {% endfor %}
+  <article class="card"><span class="num">{{ active }}</span>Active applications</article>
+  <article class="card"><span class="num">{{ '${:,.0f}'.format(salary) if salary else '—' }}</span>Avg. salary midpoint</article>
+</div>
+
+<h2>Applications by status</h2>
+<table>
+  {% for status, n in by_status.items() %}
+  <tr><td>{{ status }}</td><td class="bar"><span style="width: {{ (100 * n / total) if total else 0 }}%"></span></td><td>{{ n }}</td></tr>
+  {% endfor %}
+</table>
+
+<h2>Recent applications</h2>
+<table>
+  <tr><th>Job</th><th>Company</th><th>Date</th><th>Status</th></tr>
+  {% for a in recent %}
+  <tr><td>{{ a.job_title }}</td><td>{{ a.company_name }}</td><td>{{ a.application_date }}</td><td>{{ a.status }}</td></tr>
+  {% else %}<tr><td colspan="4">No applications yet.</td></tr>{% endfor %}
+</table>
+{% endblock %}

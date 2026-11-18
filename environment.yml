@@ -1,0 +1,9 @@
+name: job-app
+channels: [conda-forge]
+dependencies:
+  - python=3.12
+  - mysql=9.7          # MySQL server + client, runs locally inside the env
+  - mysql-server=9.7
+  - flask
+  - mysql-connector-python
+  - pytest

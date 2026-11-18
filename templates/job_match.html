@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Job Match</h1>
+<form method="post">
+  <label>Your skills (comma-separated)
+    <input name="skills" value="{{ skills_text }}" placeholder="Python, SQL, Flask" autofocus>
+  </label>
+  <div><button>Find matching jobs</button></div>
+</form>
+{% if results is not none %}
+  <h2>Matching jobs for: {{ skills|join(', ') }}</h2>
+  {% for j in results %}
+  <article class="match">
+    <strong>{{ loop.index }}. {{ j.job_title }} at {{ j.company_name }}</strong> — {{ j.percent }}% ({{ j.matched|length }}/{{ j.total }} skills)
+    <progress value="{{ j.percent }}" max="100"></progress>
+    {% if j.missing %}<small>Missing: {{ j.missing|join(', ') }}</small>{% endif %}
+  </article>
+  {% else %}<p>No jobs match those skills.</p>{% endfor %}
+{% endif %}
+{% endblock %}

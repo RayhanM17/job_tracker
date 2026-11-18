@@ -1,0 +1,15 @@
+/* Small additions on top of Pico.css */
+.head { display: flex; justify-content: space-between; align-items: center; }
+.actions { white-space: nowrap; }
+.actions form { display: inline; margin: 0; }
+button.link { display: inline; width: auto; margin: 0; padding: 0 4px; border: 0; background: none; color: var(--pico-del-color); }
+.error { color: var(--pico-del-color); font-size: .85rem; }
+.flash.success { border-left: 4px solid var(--pico-ins-color); }
+.flash.danger { border-left: 4px solid var(--pico-del-color); }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+.cards .card { margin: 0; }
+.cards .card a { text-decoration: none; }
+.card .num { display: block; font-size: 1.8rem; font-weight: 700; }
+.bar { width: 60%; }
+.bar span { display: block; height: .7rem; background: var(--pico-primary); border-radius: .35rem; }
+.match progress { margin: .25rem 0; }

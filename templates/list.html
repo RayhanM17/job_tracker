@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="head"><h1>{{ r.title }}</h1><a role="button" href="{{ url_for('crud.create', key=key) }}">+ Add {{ r.singular }}</a></div>
+<table>
+  <tr>{% for c in r.columns %}<th>{{ c.replace('_', ' ')|title }}</th>{% endfor %}<th></th></tr>
+  {% for row in rows %}
+  <tr>
+    {% for c in r.columns %}<td>{{ row[c]|pretty }}</td>{% endfor %}
+    <td class="actions">
+      <a href="{{ url_for('crud.detail', key=key, row_id=row[r.pk]) }}">View</a>
+      <a href="{{ url_for('crud.edit', key=key, row_id=row[r.pk]) }}">Edit</a>
+      <form method="post" action="{{ url_for('crud.delete', key=key, row_id=row[r.pk]) }}"
+            onsubmit="return confirm('Delete this {{ r.singular|lower }}? This cannot be undone.')">
+        <button class="link danger secondary outline">Delete</button>
+      </form>
+    </td>
+  </tr>
+  {% else %}<tr><td colspan="{{ r.columns|length + 1 }}">Nothing here yet.</td></tr>{% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ 'Edit' if row_id else 'Add' }} {{ r.singular }}</h1>
+<form method="post">
+  {% for f in r.fields %}
+  <label>{{ f.label }}{% if f.required %} *{% endif %}
+    {% set v = values.get(f.name, '') %}
+    {% if f.kind == 'textarea' or f.kind == 'json' %}
+      <textarea name="{{ f.name }}" rows="3">{{ v }}</textarea>
+    {% elif f.kind == 'enum' %}
+      <select name="{{ f.name }}">{% for o in f.options %}<option {{ 'selected' if v == o }}>{{ o }}</option>{% endfor %}</select>
+    {% elif f.kind == 'fk' %}
+      <select name="{{ f.name }}"><option value="">-- choose --</option>
+        {% for id, label in options[f.name] %}<option value="{{ id }}" {{ 'selected' if v|string == id|string }}>{{ label }}</option>{% endfor %}
+      </select>
+    {% elif f.kind == 'bool' %}
+      <input type="checkbox" name="{{ f.name }}" value="1" {{ 'checked' if v }}>
+    {% else %}
+      <input name="{{ f.name }}" value="{{ v }}" {% if f.kind == 'date' %}type="date"{% elif f.kind == 'int' %}type="number" min="0"{% endif %}>
+    {% endif %}
+    {% if errors.get(f.name) %}<span class="error">{{ errors[f.name] }}</span>{% endif %}
+  </label>
+  {% endfor %}
+  <div><button>Save</button> <a href="{{ url_for('crud.list_', key=key) }}">Cancel</a></div>
+</form>
+{% endblock %}
