@@ -5,6 +5,30 @@ skills-based **Job Match** page. UI uses [Pico.css](https://picocss.com) (loaded
 
 MySQL runs **locally inside the conda env** with its data in `./mysql-data`, so nothing is installed system-wide.
 
+## Prerequisites
+
+- **conda** (Miniconda / Miniforge / Anaconda). MySQL itself is installed by conda, so `requirements.txt` alone is not enough.
+- **Linux, macOS or WSL** (on Windows use WSL or Git Bash, since `scripts/db.sh` is a bash script).
+- Internet access for the first `conda env create` and for Pico.css (CDN) in the browser.
+- Free ports **3307** (MySQL) and **5000** (Flask).
+
+## Don't have conda? Install it first (5 minutes)
+
+Install **Miniforge** (free, small, no admin rights needed):
+
+```bash
+# Linux / WSL / macOS: download and run the installer
+curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
+bash Miniforge3-$(uname)-$(uname -m).sh -b -p "$HOME/miniforge3"
+"$HOME/miniforge3/bin/conda" init "$(basename "$SHELL")"
+# then CLOSE and REOPEN the terminal, and check:  conda --version
+```
+
+- **Windows:** install [WSL](https://learn.microsoft.com/windows/wsl/install) (`wsl --install` in PowerShell), open the Ubuntu terminal, and run the commands above.
+- Or use the graphical installer: <https://conda-forge.org/download/>.
+
+After that, continue with **Setup** below.
+
 ## Setup (once)
 
 ```bash
@@ -30,6 +54,16 @@ python app.py                            # open http://127.0.0.1:5000
 2. **Companies / Jobs / Applications / Contacts**: use *Add*, *View*, *Edit*, *Delete* (delete asks for confirmation). Try submitting an empty title or `2026-13-45` as a date to see validation. Deleting a company also removes its jobs, applications and contacts (FK cascade).
 3. **Job Match** (`/job-match`): enter `Python, SQL, Flask`. Jobs are ranked by % of required skills you have, with missing skills listed. Skills are case-insensitive. Jobs' skills are entered comma-separated and stored as a JSON array.
 4. Applications' *interview data* is a JSON object, e.g. `{"round": 1, "interviewer": "Sam"}`.
+
+## Troubleshooting
+
+| Problem | Fix |
+|---|---|
+| `MySQL failed to start; see mysql-data.log` | Read `mysql-data.log`. Usually the port is taken: `DB_PORT=3310 scripts/db.sh reset`, then run the app with the same `DB_PORT=3310`. |
+| `Address already in use` on port 5000 | Stop the other process using it, or run `flask --app app run --port 5001`. |
+| `mysqld: command not found` | Run `conda activate job-app` first. |
+| Page has no styling | The browser needs internet for the Pico.css CDN. |
+| Want to use your own MySQL | Set `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME` and run `schema.sql` (and optionally `seed.sql`) against it. |
 
 ## Shut down
 

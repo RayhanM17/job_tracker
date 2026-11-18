@@ -5,7 +5,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 DATA=mysql-data
 PORT=${DB_PORT:-3307}
-SOCK="$PWD/$DATA/mysql.sock"
+SOCK="/tmp/job-tracker-mysql-$PORT.sock"   # short path: Unix sockets are limited to ~107 chars
 CLIENT=(mysql --protocol=TCP -h127.0.0.1 -P"$PORT" -uroot)
 
 start() {
